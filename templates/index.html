@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tilapia Counter</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        async function updateCount() {
+            const res = await fetch("/count");
+            const data = await res.json();
+            document.getElementById("fish-count").innerText = data.count;
+        }
+        setInterval(updateCount, 1000); // update every second
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>🐟 Tilapia Counter</h1>
+
+        <div class="count-box">
+            Total Fish: <span id="fish-count">{{ count }}</span>
+        </div>
+
+        <div class="video-container">
+            <img src="{{ url_for('video_feed') }}" alt="Video Stream">
+        </div>
+
+        <form action="{{ url_for('reset') }}" method="post">
+            <button class="btn" type="submit">Reset Count</button>
+        </form>
+    </div>
+</body>
+</html>
