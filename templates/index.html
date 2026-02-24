@@ -1,31 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Tilapia Counter</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tilapia Counter Pro</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; text-align: center; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .count-box { font-size: 2.5em; font-weight: bold; color: #1a73e8; margin: 20px 0; }
+        .video-container img { width: 100%; border-radius: 8px; border: 3px solid #333; }
+        .btn { background: #d93025; color: white; border: none; padding: 12px 24px; font-size: 1em; border-radius: 6px; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: #b21f16; }
+    </style>
     <script>
         async function updateCount() {
-            const res = await fetch("/count");
-            const data = await res.json();
-            document.getElementById("fish-count").innerText = data.count;
+            try {
+                const res = await fetch("/count");
+                const data = await res.json();
+                document.getElementById("fish-count").innerText = data.count;
+            } catch (e) { console.log("Update failed"); }
         }
-        setInterval(updateCount, 1000); // update every second
+        setInterval(updateCount, 1000); 
     </script>
 </head>
 <body>
     <div class="container">
-        <h1>🐟 Tilapia Counter</h1>
-
+        <h1>🐟 Tilapia Live Tracker</h1>
         <div class="count-box">
-            Total Fish: <span id="fish-count">{{ count }}</span>
+            Total Count: <span id="fish-count">{{ count }}</span>
         </div>
-
         <div class="video-container">
-            <img src="{{ url_for('video_feed') }}" alt="Video Stream">
+            <img src="{{ url_for('video_feed') }}" alt="Live Stream">
         </div>
-
+        <br>
         <form action="{{ url_for('reset') }}" method="post">
-            <button class="btn" type="submit">Reset Count</button>
+            <button class="btn" type="submit">Reset Counter</button>
         </form>
     </div>
 </body>
